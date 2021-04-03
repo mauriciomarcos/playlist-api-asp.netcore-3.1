@@ -36,6 +36,14 @@ namespace Playlist.API.Domain.Services
             return listaViewModel;
         }
 
+        public async Task<IEnumerable<VideoViewModel>> BuscarTodos(bool visualizado)
+        {
+            var listaVideoRepository = await _videoRepository.BuscarTodos(visualizado);
+            var listaViewModel = listaVideoRepository.Select(video => (VideoViewModel)video);
+
+            return listaViewModel;
+        }
+
         public void Excluir(VideoViewModel e)
         {
             _videoRepository.Excluir(e);

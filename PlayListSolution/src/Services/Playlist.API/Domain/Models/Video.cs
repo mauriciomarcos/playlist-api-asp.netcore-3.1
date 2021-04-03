@@ -18,6 +18,8 @@ namespace Playlist.API.Domain.Models
 
         public string LinkVideo { get; set; }
 
+        public bool Visualizado { get; set; }
+
         public static implicit operator VideoViewModel(Video video)
         {
             if (video is null) return null;

@@ -15,5 +15,7 @@ namespace Playlist.API.Domain.Interfaces.Service
         Task<VideoViewModel> BuscarPorId(Guid id);
 
         Task<IEnumerable<VideoViewModel>> BuscarTodos();
+
+        Task<IEnumerable<VideoViewModel>> BuscarTodos(bool visualizado);
     }
 }
