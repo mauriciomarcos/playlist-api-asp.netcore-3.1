@@ -71,12 +71,12 @@ namespace Playlist.API.Controllers
         }
 
         [HttpGet]
-        [Route("buscarPaginado/{page?}/{visualizado}")]
+        [Route("buscarPaginado/{page?}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<VideoViewModel>> GetPaginated(int? page, bool visualizado = false)
+        public async Task<ActionResult<VideoViewModel>> GetPaginated(int? page, [FromQuery] bool visualizado = false)
         {
             try
             {
