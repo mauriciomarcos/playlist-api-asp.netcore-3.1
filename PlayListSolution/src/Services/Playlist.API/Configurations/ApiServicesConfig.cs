@@ -16,5 +16,18 @@ namespace Playlist.API.Configurations
 
             return services;
         }
+
+        public static IServiceCollection AdicionarConfiguracaoCORS(this IServiceCollection services)
+        {
+            services.AddCors(opt => opt.AddPolicy("cross-site-allow", policy =>
+            {
+                policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
+            return services;
+        }
     }
 }

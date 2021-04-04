@@ -9,7 +9,9 @@ namespace Playlist.API.Data.Context
     {
         public PlayListDbContext(DbContextOptions<PlayListDbContext> options) 
             : base(options)
-        { }
+        {
+            Seed();
+        }
 
         public DbSet<Video> Videos { get; set; }
 
@@ -27,7 +29,7 @@ namespace Playlist.API.Data.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(VideoMapping).Assembly);
 
             // Chamada para o método de configuração default
-            DefautMappingConfiguration(modelBuilder);
+            DefautMappingConfiguration(modelBuilder);            
         }
 
         private void DefautMappingConfiguration(ModelBuilder modelBuilder)
@@ -49,6 +51,20 @@ namespace Playlist.API.Data.Context
                     }
                 }
             }
+        }
+
+        private async void Seed()
+        {
+           await Videos.Add(new Video
+            {
+                Id = new System.Guid(),
+                Nome = "Why you think you're right -- even if you're wrong | Julia Galef",
+                NomeCanal = "TED",
+                DataCadastro = System.DateTime.Now,
+                LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",
+                Visualizado = false                
+            })
+           .Context.SaveChangesAsync();
         }
     }
 }

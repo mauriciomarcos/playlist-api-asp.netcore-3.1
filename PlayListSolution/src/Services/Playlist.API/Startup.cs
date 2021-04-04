@@ -19,27 +19,22 @@ namespace Playlist.API
         public void ConfigureServices(IServiceCollection services)
         {          
             services.AddControllers();
-
+            services.AdicionarConfiguracaoCORS();
             services.AdicionarConfiguracaoDoEntityFramework(Configuration);
-
             services.AdicionarConfiguracaoDoSwagger();
-
             services.AdicionarConfiguracaoInjecaoDependenciaAplicacao();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UsarConfiguracaoDoSwagger();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("cross-site-allow");
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

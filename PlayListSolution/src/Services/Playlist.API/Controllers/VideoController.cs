@@ -72,8 +72,7 @@ namespace Playlist.API.Controllers
 
         [HttpGet]
         [Route("buscarPaginado/{page?}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<VideoViewModel>> GetPaginated(int? page, [FromQuery] bool visualizado = false)
@@ -85,6 +84,8 @@ namespace Playlist.API.Controllers
 
                 var listaVideos = await _service.BuscarTodos(visualizado);
                 var responsePaginated = listaVideos.OrderBy(e => e.Id).ToPaginatedRestAsync(page.Value, 10);
+
+                if (responsePaginated.Result.PageCount is 0) return NoContent();
 
                 return Ok(responsePaginated);
             }
