@@ -6,7 +6,6 @@ namespace Playlist.API.ViewModels
 {
     public class VideoViewModel
     {
-        [Required]
         [Display(Name = "Código do Vídeo", ShortName = "Id")]
         public string Id { get; set; }
 
@@ -36,7 +35,7 @@ namespace Playlist.API.ViewModels
         public static implicit operator Video(VideoViewModel viewModel) =>
             new Video
             {
-                Id = Guid.Parse(viewModel.Id),
+                Id = string.IsNullOrEmpty(viewModel.Id) ? Guid.NewGuid() : Guid.Parse(viewModel.Id),
                 Nome = viewModel.DescricaoVideo,
                 NomeCanal = viewModel.NomeCanal,
                 DataCadastro = viewModel.DataCadastro,

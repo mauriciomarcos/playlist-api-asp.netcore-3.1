@@ -1,5 +1,6 @@
 ﻿using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Interfaces.Service;
+using Playlist.API.Domain.Models;
 using Playlist.API.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,10 @@ namespace Playlist.API.Domain.Services
 
         public void Inserir(VideoViewModel e)
         {
-            _videoRepository.Inserir(e);
+            var video = (Video)e;
+            _videoRepository.Inserir(video);
+
+            e.Id = video.Id.ToString();
         }
     }
 }
