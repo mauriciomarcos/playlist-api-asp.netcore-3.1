@@ -103,13 +103,13 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(VideoViewModel), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Post([FromBody] VideoViewModel video)
+        public async Task<IActionResult> Post([FromBody] VideoViewModel video)
         {
             try
             {
                 if (!ModelState.IsValid) return BadRequest();
 
-                _service.Inserir(video);
+                await _service.Inserir(video);
 
                 return Created(new Uri($"{Request.Path}/{video.Id}", UriKind.Relative), video);
             }
@@ -138,7 +138,7 @@ namespace Playlist.API.Controllers
                 if (videoAtualizacao is null)
                     return NoContent();
                 else
-                    _service.Atualizar(video);
+                    await _service.Atualizar(video);
 
                 return Ok(video);
             }
@@ -168,7 +168,7 @@ namespace Playlist.API.Controllers
                 if (videoExclusao is null)
                     return NoContent();
                 else
-                    _service.Excluir(videoExclusao);
+                    await _service.Excluir(videoExclusao);
 
                 return Ok(videoExclusao);
             }

@@ -6,11 +6,11 @@ namespace Playlist.API.Domain.Interfaces.Repository
 {
     public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
     {
-        void Inserir(TEntity e);
+        Task Inserir(TEntity e);
 
-        void Atualizar(TEntity e);
+        Task Atualizar(TEntity e);
 
-        void Excluir(TEntity e);
+        Task Excluir(TEntity e);
 
         Task<TEntity> BuscarPorId(Guid id);
 

@@ -16,10 +16,10 @@ namespace Playlist.API.Data.Repository
             _db = playListDbContext;
         }
 
-        public void Atualizar(TEntity e)
+        public async Task Atualizar(TEntity e)
         {
             _db.Entry(e).State = EntityState.Modified;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         public async Task<TEntity> BuscarPorId(Guid id)
@@ -32,16 +32,16 @@ namespace Playlist.API.Data.Repository
             return await _db.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
-        public async void Excluir(TEntity e)
+        public async Task Excluir(TEntity e)
         {
             _db.Set<TEntity>().Remove(e);
             await _db.SaveChangesAsync();
         }
 
-        public void Inserir(TEntity e)
+        public async Task Inserir(TEntity e)
         {
-             _db.Set<TEntity>().Add(e);
-            _db.SaveChanges();
+            await _db.Set<TEntity>().AddAsync(e);
+            await _db.SaveChangesAsync();
         }
 
         public void Dispose()

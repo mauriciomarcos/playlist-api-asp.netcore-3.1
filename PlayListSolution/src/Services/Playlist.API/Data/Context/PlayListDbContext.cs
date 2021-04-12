@@ -58,7 +58,7 @@ namespace Playlist.API.Data.Context
            await Videos.Add(new Video
             {
                 Id = new System.Guid(),
-                Nome = "Why you think you're right -- even if you're wrong | Julia Galef",
+                Nome = "Why you think you're right even if you're wrong",
                 NomeCanal = "TED",
                 DataCadastro = System.DateTime.Now,
                 LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",

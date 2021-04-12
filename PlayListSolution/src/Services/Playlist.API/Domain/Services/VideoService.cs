@@ -18,9 +18,9 @@ namespace Playlist.API.Domain.Services
             _videoRepository = videoRepository;
         }
 
-        public void Atualizar(VideoViewModel e)
+        public async Task Atualizar(VideoViewModel e)
         {
-            _videoRepository.Atualizar(e);
+           await _videoRepository.Atualizar(e);
         }
 
         public async Task<VideoViewModel> BuscarPorId(Guid id)
@@ -45,15 +45,15 @@ namespace Playlist.API.Domain.Services
             return listaViewModel;
         }
 
-        public void Excluir(VideoViewModel e)
+        public async Task Excluir(VideoViewModel e)
         {
-            _videoRepository.Excluir(e);
+            await _videoRepository.Excluir(e);
         }
 
-        public void Inserir(VideoViewModel e)
+        public async Task Inserir(VideoViewModel e)
         {
             var video = (Video)e;
-            _videoRepository.Inserir(video);
+            await _videoRepository.Inserir(video);
 
             e.Id = video.Id.ToString();
         }

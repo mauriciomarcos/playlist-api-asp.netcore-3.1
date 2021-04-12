@@ -6,11 +6,11 @@ namespace Playlist.API.Domain.Interfaces.Service
 {
     public interface IVideoService<VideoViewModel>
     {
-        void Inserir(VideoViewModel e);
+        Task Inserir(VideoViewModel e);
 
-        void Atualizar(VideoViewModel e);
+        Task Atualizar(VideoViewModel e);
 
-        void Excluir(VideoViewModel e);
+        Task Excluir(VideoViewModel e);
 
         Task<VideoViewModel> BuscarPorId(Guid id);
 

@@ -1,6 +1,5 @@
 ﻿using Playlist.API.ViewModels;
 using System;
-using System.Collections.Generic;
 
 namespace Playlist.API.Domain.Models
 {
