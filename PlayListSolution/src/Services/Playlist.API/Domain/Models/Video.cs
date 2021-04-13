@@ -30,7 +30,8 @@ namespace Playlist.API.Domain.Models
                 NomeCanal = video.NomeCanal,
                 DataCadastro = video.DataCadastro,
                 DataViualizacao = video.DataViualizacao,
-                LinkVideoExterno = video.LinkVideo
+                LinkVideoExterno = video.LinkVideo,
+                Visualizado = video.Visualizado
             };
         }            
     }

@@ -2,6 +2,7 @@
 using Playlist.API.Data.Context;
 using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +23,15 @@ namespace Playlist.API.Data.Repository
         {
             return await _db.Set<Video>()
                 .Where(e => e.Visualizado == visualizado).ToListAsync();
+        }
+
+        public void DetachLocal(Func<Video, bool> precicate)
+        {
+            var local = _db.Set<Video>().Local.Where(precicate).FirstOrDefault();
+            if (local != null)
+            {
+                _db.Entry(local).State = EntityState.Detached;
+            }
         }
     }
 }

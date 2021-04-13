@@ -10,7 +10,7 @@ namespace Playlist.API.Data.Context
         public PlayListDbContext(DbContextOptions<PlayListDbContext> options) 
             : base(options)
         {
-            Seed();
+            //Seed();
         }
 
         public DbSet<Video> Videos { get; set; }

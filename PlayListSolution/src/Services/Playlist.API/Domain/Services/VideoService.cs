@@ -20,7 +20,8 @@ namespace Playlist.API.Domain.Services
 
         public async Task Atualizar(VideoViewModel e)
         {
-           await _videoRepository.Atualizar(e);
+            _videoRepository.DetachLocal(_ => _.Id == Guid.Parse(e.Id));
+            await _videoRepository.Atualizar(e);
         }
 
         public async Task<VideoViewModel> BuscarPorId(Guid id)

@@ -132,6 +132,8 @@ namespace Playlist.API.Controllers
         {
             try
             {
+                if (id != Guid.Parse(video.Id)) return BadRequest();
+
                 if (!ModelState.IsValid) return BadRequest();
 
                 var videoAtualizacao = await _service.BuscarPorId(id);

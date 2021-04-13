@@ -32,6 +32,8 @@ namespace Playlist.API.ViewModels
         [Url(ErrorMessage = "URL com formato inválido.")]
         public string LinkVideoExterno { get; set; }
 
+        public bool Visualizado { get; set; }
+
         public static implicit operator Video(VideoViewModel viewModel) =>
             new Video
             {
@@ -40,7 +42,8 @@ namespace Playlist.API.ViewModels
                 NomeCanal = viewModel.NomeCanal,
                 DataCadastro = viewModel.DataCadastro,
                 DataViualizacao = viewModel.DataViualizacao,
-                LinkVideo = viewModel.LinkVideoExterno
+                LinkVideo = viewModel.LinkVideoExterno,
+                Visualizado = viewModel.Visualizado
             };        
     }
 }
