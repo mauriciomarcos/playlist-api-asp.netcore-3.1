@@ -21,6 +21,9 @@ namespace Playlist.API.Domain.Services
 
         public async Task Atualizar(VideoViewModel e)
         {
+            if (e.Visualizado) e.DataVisualizacao = DateTime.Now;
+            else e.DataVisualizacao = default;
+
             _videoRepository.DetachLocal(_ => _.Id == Guid.Parse(e.Id));
             await _videoRepository.Atualizar(e);
         }

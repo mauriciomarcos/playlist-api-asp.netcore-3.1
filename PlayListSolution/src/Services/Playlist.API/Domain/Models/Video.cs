@@ -13,7 +13,7 @@ namespace Playlist.API.Domain.Models
 
         public DateTime DataCadastro { get; set; }
 
-        public DateTime DataViualizacao { get; set; }
+        public DateTime DataVisualizacao { get; set; }
 
         public string LinkVideo { get; set; }
 
@@ -29,7 +29,7 @@ namespace Playlist.API.Domain.Models
                 DescricaoVideo = video.Nome,
                 NomeCanal = video.NomeCanal,
                 DataCadastro = video.DataCadastro,
-                DataViualizacao = video.DataViualizacao,
+                DataVisualizacao = video.DataVisualizacao,
                 LinkVideoExterno = video.LinkVideo,
                 Visualizado = video.Visualizado
             };

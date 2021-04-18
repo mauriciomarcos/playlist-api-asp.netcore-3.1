@@ -25,7 +25,7 @@ namespace Playlist.API.ViewModels
 
         [DataType(DataType.Date, ErrorMessage = "Data no formato inválido.")]
         [Display(Name = "Data da Visualização do Vídeo.")]
-        public DateTime DataViualizacao { get; set; }
+        public DateTime DataVisualizacao { get; set; }
 
         [Required]
         [Display(Name = "Link do Vídeo", ShortName = "Link")]
@@ -41,7 +41,7 @@ namespace Playlist.API.ViewModels
                 Nome = viewModel.DescricaoVideo,
                 NomeCanal = viewModel.NomeCanal,
                 DataCadastro = viewModel.DataCadastro,
-                DataViualizacao = viewModel.DataViualizacao,
+                DataVisualizacao = viewModel.DataVisualizacao,
                 LinkVideo = viewModel.LinkVideoExterno,
                 Visualizado = viewModel.Visualizado
             };        

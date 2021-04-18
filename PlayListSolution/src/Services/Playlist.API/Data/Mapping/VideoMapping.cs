@@ -23,7 +23,7 @@ namespace Playlist.API.Data.Mapping
                 .HasDefaultValueSql("getdate()")
                 .IsRequired();
 
-            builder.Property(e => e.DataViualizacao);
+            builder.Property(e => e.DataVisualizacao);
 
             builder.Property(e => e.LinkVideo)
                 .HasMaxLength(1000);
