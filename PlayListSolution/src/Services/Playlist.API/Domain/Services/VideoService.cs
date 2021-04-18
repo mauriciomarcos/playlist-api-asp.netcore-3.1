@@ -1,4 +1,5 @@
-﻿using Playlist.API.Domain.Interfaces.Repository;
+﻿using Canducci.Pagination;
+using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Interfaces.Service;
 using Playlist.API.Domain.Models;
 using Playlist.API.ViewModels;
@@ -38,16 +39,17 @@ namespace Playlist.API.Domain.Services
             return listaViewModel;
         }
 
-        public async Task<IEnumerable<VideoViewModel>> BuscarTodos(bool visualizado)
+        public async Task<PaginatedRest<VideoViewModel>> BuscarTodosPaginado(int? pageNumber, int? pageSize, bool visualizado)
         {
-            var listaVideoRepository = await _videoRepository.BuscarTodos(visualizado);
-            var listaViewModel = listaVideoRepository.Select(video => (VideoViewModel)video);
+            var responseRepository = await _videoRepository.BuscarTodosPaginado(pageNumber, pageSize, visualizado);
 
-            return listaViewModel;
+            return await responseRepository.Items.Select(video => (VideoViewModel)video)
+                .ToPaginatedRestAsync(pageNumber.Value, pageSize.Value);           
         }
 
         public async Task Excluir(VideoViewModel e)
         {
+            _videoRepository.DetachLocal(_ => _.Id == Guid.Parse(e.Id));
             await _videoRepository.Excluir(e);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Canducci.Pagination;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,6 +17,6 @@ namespace Playlist.API.Domain.Interfaces.Service
 
         Task<IEnumerable<VideoViewModel>> BuscarTodos();
 
-        Task<IEnumerable<VideoViewModel>> BuscarTodos(bool visualizado);
+        Task<PaginatedRest<VideoViewModel>> BuscarTodosPaginado(int? pageNumber, int? pageSize, bool visualizado);
     }
 }

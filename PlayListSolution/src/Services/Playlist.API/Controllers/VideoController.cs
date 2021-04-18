@@ -71,23 +71,24 @@ namespace Playlist.API.Controllers
         }
 
         [HttpGet]
-        [Route("buscarPaginado/{page?}")]
+        [Route("buscarPaginado/{pageNumber?}/{pageSize?}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<VideoViewModel>> GetPaginated(int? page, [FromQuery] bool visualizado = false)
+        public async Task<ActionResult<PaginatedRest<VideoViewModel>>> GetPaginated(int? pageNumber, int? pageSize, [FromQuery] bool visualizado = false)
         {
             try
             {
-                page ??= 1;
-                if (page < 0) page = 1;
+                pageNumber ??= 1;
+                pageSize ??= 10;
 
-                var listaVideos = await _service.BuscarTodos(visualizado);
-                var responsePaginated = listaVideos.OrderBy(e => e.Id).ToPaginatedRestAsync(page.Value, 10);
+                if (pageNumber < 0) pageNumber = 1;        
 
-                if (responsePaginated.Result.PageCount is 0) return NoContent();
+                var videosComDadosDaPaginacao = (await _service.BuscarTodosPaginado(pageNumber, pageSize, visualizado));
+         
+                if (videosComDadosDaPaginacao.Items.Count() == 0) return NoContent();
 
-                return Ok(responsePaginated);
+                return Ok(videosComDadosDaPaginacao);
             }
             catch (Exception ex)
             {
@@ -164,8 +165,6 @@ namespace Playlist.API.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) return BadRequest();
-
                 var videoExclusao = await _service.BuscarPorId(id);
                 if (videoExclusao is null)
                     return NoContent();

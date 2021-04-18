@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Canducci.Pagination;
+using Microsoft.EntityFrameworkCore;
 using Playlist.API.Data.Context;
 using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,10 +19,13 @@ namespace Playlist.API.Data.Repository
             _db = db;
         }
 
-        public async Task<IEnumerable<Video>> BuscarTodos(bool visualizado)
+        public async Task<PaginatedRest<Video>> BuscarTodosPaginado(int? pageNumber, int? pageSize, bool visualizado)
         {
             return await _db.Set<Video>()
-                .Where(e => e.Visualizado == visualizado).ToListAsync();
+                .AsNoTracking()
+                .Where(e => e.Visualizado == visualizado)
+                .OrderBy(e => e.DataCadastro)
+                .ToPaginatedRestAsync(pageNumber.Value, pageSize.Value);
         }
 
         public void DetachLocal(Func<Video, bool> precicate)
