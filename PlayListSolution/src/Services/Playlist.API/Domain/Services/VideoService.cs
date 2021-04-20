@@ -1,5 +1,4 @@
-﻿using Canducci.Pagination;
-using Playlist.API.Domain.Interfaces.Repository;
+﻿using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Interfaces.Service;
 using Playlist.API.Domain.Models;
 using Playlist.API.ViewModels;
@@ -42,12 +41,26 @@ namespace Playlist.API.Domain.Services
             return listaViewModel;
         }
 
-        public async Task<PaginatedRest<VideoViewModel>> BuscarTodosPaginado(int? pageNumber, int? pageSize, bool visualizado)
+        public async Task<PaginacaoViewModel<T>> BuscarTodosPaginado<T>(int? pageNumber, int? pageSize, bool visualizado) where T : class
         {
             var responseRepository = await _videoRepository.BuscarTodosPaginado(pageNumber, pageSize, visualizado);
+            var paginacaoViewModel = new PaginacaoViewModel<VideoViewModel>();
 
-            return await responseRepository.Items.Select(video => (VideoViewModel)video)
-                .ToPaginatedRestAsync(pageNumber.Value, pageSize.Value);           
+            await Task.Run(() =>
+            {
+                paginacaoViewModel.PageCount = responseRepository.PageCount;
+                paginacaoViewModel.TotalItemCount = responseRepository.TotalItemCount;
+                paginacaoViewModel.PageNumber = responseRepository.PageNumber;
+                paginacaoViewModel.PageSize = responseRepository.PageSize;
+                paginacaoViewModel.HasPreviousPage = responseRepository.HasPreviousPage;
+                paginacaoViewModel.HasNextPage = responseRepository.HasNextPage;
+                paginacaoViewModel.IsFirstPage = responseRepository.IsFirstPage;
+                paginacaoViewModel.IsLastPage = responseRepository.IsLastPage;
+                paginacaoViewModel.FirstItemOnPage = responseRepository.FirstItemOnPage;
+                paginacaoViewModel.Items = responseRepository.Items.Select(video => (VideoViewModel)video);                               
+            });
+
+            return paginacaoViewModel as PaginacaoViewModel<T>;
         }
 
         public async Task Excluir(VideoViewModel e)

@@ -1,5 +1,4 @@
-﻿using Canducci.Pagination;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Playlist.API.Domain.Interfaces.Service;
 using Playlist.API.ViewModels;
@@ -75,16 +74,16 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PaginatedRest<VideoViewModel>>> GetPaginated(int? pageNumber, int? pageSize, [FromQuery] bool visualizado = false)
+        public async Task<ActionResult<PaginacaoViewModel<VideoViewModel>>> GetPaginated(int? pageNumber, int? pageSize, [FromQuery] bool visualizado = false)
         {
             try
             {
                 pageNumber ??= 1;
-                pageSize ??= 10;
+                pageSize ??= 9;
 
                 if (pageNumber < 0) pageNumber = 1;        
 
-                var videosComDadosDaPaginacao = (await _service.BuscarTodosPaginado(pageNumber, pageSize, visualizado));
+                var videosComDadosDaPaginacao = (await _service.BuscarTodosPaginado<VideoViewModel>(pageNumber, pageSize, visualizado));
          
                 if (videosComDadosDaPaginacao.Items.Count() == 0) return NoContent();
 
