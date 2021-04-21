@@ -29,6 +29,11 @@ namespace Playlist.API.Data.Repository
 
         public async Task<IEnumerable<TEntity>> BuscarTodos()
         {
+            return await _db.Set<TEntity>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> BuscarTodosAsNoTracking()
+        {
             return await _db.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 

@@ -19,6 +19,8 @@ namespace Playlist.API.Domain.Models
 
         public bool Visualizado { get; set; }
 
+        public Categoria Categoria { get; set; }
+
         public static implicit operator VideoViewModel(Video video)
         {
             if (video is null) return null;
@@ -31,7 +33,9 @@ namespace Playlist.API.Domain.Models
                 DataCadastro = video.DataCadastro,
                 DataVisualizacao = video.DataVisualizacao,
                 LinkVideoExterno = video.LinkVideo,
-                Visualizado = video.Visualizado
+                Visualizado = video.Visualizado,
+                CategoriaId = video?.Categoria?.Id.ToString(),
+                NomeCategoria = video?.Categoria?.Nome
             };
         }            
     }

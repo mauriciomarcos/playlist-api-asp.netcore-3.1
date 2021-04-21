@@ -14,6 +14,7 @@ namespace Playlist.API.Data.Context
         }
 
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,6 +56,13 @@ namespace Playlist.API.Data.Context
 
         private async void Seed()
         {
+            var categoria = new Categoria
+            {
+                Id = new System.Guid(),
+                Nome = "Vídeos Técnicos"
+            };                
+           //await Categorias.Add(categoria).Context.SaveChangesAsync();
+
            await Videos.Add(new Video
             {
                 Id = new System.Guid(),
@@ -62,8 +70,9 @@ namespace Playlist.API.Data.Context
                 NomeCanal = "TED",
                 DataCadastro = System.DateTime.Now,
                 LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",
-                Visualizado = false                
-            })
+                Visualizado = false,
+                Categoria = categoria
+           })
            .Context.SaveChangesAsync();
         }
     }

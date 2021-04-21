@@ -36,9 +36,7 @@ namespace Playlist.API.Domain.Services
         public async Task<IEnumerable<VideoViewModel>> BuscarTodos()
         {
             var listaVideoRepository = await _videoRepository.BuscarTodos();
-            var listaViewModel = listaVideoRepository.Select(video => (VideoViewModel)video);
-
-            return listaViewModel;
+            return listaVideoRepository.Select(video => (VideoViewModel)video);
         }
 
         public async Task<PaginacaoViewModel<T>> BuscarTodosPaginado<T>(int? pageNumber, int? pageSize, bool visualizado) where T : class
@@ -71,10 +69,8 @@ namespace Playlist.API.Domain.Services
 
         public async Task Inserir(VideoViewModel e)
         {
-            var video = (Video)e;
+            var video = (Video)e;        
             await _videoRepository.Inserir(video);
-
-            e.Id = video.Id.ToString();
         }
     }
 }

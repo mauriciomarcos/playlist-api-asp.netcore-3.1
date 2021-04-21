@@ -14,6 +14,8 @@ namespace Playlist.API.Domain.Interfaces.Repository
 
         Task<TEntity> BuscarPorId(Guid id);
 
+        Task<IEnumerable<TEntity>> BuscarTodosAsNoTracking();
+
         Task<IEnumerable<TEntity>> BuscarTodos();
     }
 }

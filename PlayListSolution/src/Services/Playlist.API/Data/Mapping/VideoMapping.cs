@@ -28,6 +28,9 @@ namespace Playlist.API.Data.Mapping
             builder.Property(e => e.LinkVideo)
                 .HasMaxLength(1000);
 
+            builder.HasOne(e => e.Categoria)
+                .WithMany(categoria => categoria.Videos)
+                .IsRequired();
         }
     }
 }

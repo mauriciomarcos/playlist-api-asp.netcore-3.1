@@ -14,6 +14,9 @@ namespace Playlist.API.Configurations
             services.AddScoped<IVideoService<VideoViewModel>, VideoService>();
             services.AddScoped<IVideoRepository, VideoRepository>();
 
+            services.AddScoped<ICategoriaService<CategoriaViewModel>, CategoriaService>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
             return services;
         }
 
