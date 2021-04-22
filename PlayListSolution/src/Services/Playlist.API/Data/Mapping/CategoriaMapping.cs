@@ -18,8 +18,7 @@ namespace Playlist.API.Data.Mapping
 
             builder.HasMany(e => e.Videos)
                 .WithOne(video => video.Categoria)
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

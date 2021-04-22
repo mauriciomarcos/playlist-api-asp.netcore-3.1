@@ -71,6 +71,10 @@ namespace Playlist.API.Domain.Services
         {
             var video = (Video)e;        
             await _videoRepository.Inserir(video);
+
+            e.Id = video.Id.ToString();
+            e.CategoriaId = video.Categoria?.Id.ToString();
+            e.NomeCategoria = video.Categoria?.Nome;        
         }
     }
 }

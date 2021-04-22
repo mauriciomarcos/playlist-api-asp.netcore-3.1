@@ -51,9 +51,9 @@ namespace Playlist.API.ViewModels
                 DataVisualizacao = viewModel.DataVisualizacao,
                 LinkVideo = viewModel.LinkVideoExterno,
                 Visualizado = viewModel.Visualizado,
-                Categoria = new Categoria
+                Categoria = string.IsNullOrEmpty(viewModel.NomeCategoria) ? null : new Categoria
                 {
-                    Id = Guid.Parse(viewModel.CategoriaId),
+                    Id = string.IsNullOrEmpty(viewModel.CategoriaId) ? Guid.NewGuid() : Guid.Parse(viewModel.CategoriaId),
                     Nome = viewModel.NomeCategoria
                 }
             };

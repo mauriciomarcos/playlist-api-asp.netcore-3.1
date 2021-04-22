@@ -4,6 +4,7 @@ using Playlist.API.Data.Context;
 using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +20,18 @@ namespace Playlist.API.Data.Repository
             _db = db;
         }
 
+        public override async Task<IEnumerable<Video>> BuscarTodos()
+        {
+            return await _db.Set<Video>()
+                .Include(video => video.Categoria)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<PaginatedRest<Video>> BuscarTodosPaginado(int? pageNumber, int? pageSize, bool visualizado)
         {
             return await _db.Set<Video>()
+                .Include(video => video.Categoria)
                 .AsNoTracking()
                 .Where(e => e.Visualizado == visualizado)
                 .OrderBy(e => e.DataCadastro)

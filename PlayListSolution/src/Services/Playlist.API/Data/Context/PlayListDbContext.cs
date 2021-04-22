@@ -10,7 +10,7 @@ namespace Playlist.API.Data.Context
         public PlayListDbContext(DbContextOptions<PlayListDbContext> options) 
             : base(options)
         {
-            Seed();
+           //Seed();
         }
 
         public DbSet<Video> Videos { get; set; }
@@ -71,7 +71,7 @@ namespace Playlist.API.Data.Context
                 DataCadastro = System.DateTime.Now,
                 LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",
                 Visualizado = false,
-                Categoria = categoria
+                Categoria = null
            })
            .Context.SaveChangesAsync();
         }
