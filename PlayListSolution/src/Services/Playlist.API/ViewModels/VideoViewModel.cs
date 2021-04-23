@@ -34,11 +34,10 @@ namespace Playlist.API.ViewModels
 
         public bool Visualizado { get; set; }
 
+        [Required]
         [Display(Name = "Identificador da categoria do vídeo.")]
         public string CategoriaId { get; set; }
 
-        [Display(Name = "Nome da categoria do vídeo.")]
-        [StringLength(maximumLength: 250, ErrorMessage = "O nome da categoria excede o tamanho máximo de caracter permitido de 250 caracteres.")]
         public string NomeCategoria { get; set; }
 
         public static implicit operator Video(VideoViewModel viewModel) =>
@@ -50,12 +49,7 @@ namespace Playlist.API.ViewModels
                 DataCadastro = viewModel.DataCadastro,
                 DataVisualizacao = viewModel.DataVisualizacao,
                 LinkVideo = viewModel.LinkVideoExterno,
-                Visualizado = viewModel.Visualizado,
-                Categoria = string.IsNullOrEmpty(viewModel.NomeCategoria) ? null : new Categoria
-                {
-                    Id = string.IsNullOrEmpty(viewModel.CategoriaId) ? Guid.NewGuid() : Guid.Parse(viewModel.CategoriaId),
-                    Nome = viewModel.NomeCategoria
-                }
+                Visualizado = viewModel.Visualizado
             };
     }
 }

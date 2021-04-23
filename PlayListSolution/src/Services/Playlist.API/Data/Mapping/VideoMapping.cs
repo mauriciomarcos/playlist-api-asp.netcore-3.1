@@ -29,8 +29,8 @@ namespace Playlist.API.Data.Mapping
                 .HasMaxLength(1000);
 
             builder.HasOne(e => e.Categoria)
-                .WithMany(categoria => categoria.Videos);
-                //.IsRequired();
+                .WithMany(categoria => categoria.Videos)
+                .IsRequired();
         }
     }
 }

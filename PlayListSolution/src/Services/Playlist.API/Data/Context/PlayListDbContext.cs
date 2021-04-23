@@ -7,10 +7,16 @@ namespace Playlist.API.Data.Context
 {
     public class PlayListDbContext : DbContext
     {
+        private static bool PrimeiraExecucao = true;
+
         public PlayListDbContext(DbContextOptions<PlayListDbContext> options) 
             : base(options)
         {
-           //Seed();
+            if (PrimeiraExecucao)
+            {
+                Seed();
+                PrimeiraExecucao = false;
+            }                
         }
 
         public DbSet<Video> Videos { get; set; }
@@ -56,24 +62,43 @@ namespace Playlist.API.Data.Context
 
         private async void Seed()
         {
-            var categoria = new Categoria
-            {
-                Id = new System.Guid(),
-                Nome = "Vídeos Técnicos"
-            };                
-           //await Categorias.Add(categoria).Context.SaveChangesAsync();
+            var categorias = new Categoria[] { 
+                new Categoria
+                {
+                    Id = new System.Guid(),
+                    Nome = "Técnicos - Linguagens de Programação"
+                },
+                new Categoria
+                {
+                    Id = new System.Guid(),
+                    Nome = "Técnicos - Banco de Dados"
+                },
+                new Categoria
+                {
+                    Id = new System.Guid(),
+                    Nome = "Entreterimento"
+                },
+                new Categoria
+                {
+                    Id = new System.Guid(),
+                    Nome = "Diversos"
+                },
+            };
 
-           await Videos.Add(new Video
-            {
-                Id = new System.Guid(),
-                Nome = "Why you think you're right even if you're wrong",
-                NomeCanal = "TED",
-                DataCadastro = System.DateTime.Now,
-                LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",
-                Visualizado = false,
-                Categoria = null
-           })
-           .Context.SaveChangesAsync();
+            Categorias.AddRange(categorias);
+            await base.SaveChangesAsync();
+
+           //await Videos.Add(new Video
+           // {
+           //     Id = new System.Guid(),
+           //     Nome = "Why you think you're right even if you're wrong",
+           //     NomeCanal = "TED",
+           //     DataCadastro = System.DateTime.Now,
+           //     LinkVideo = "https://www.youtube.com/embed/w4RLfVxTGH4",
+           //     Visualizado = false,
+           //     Categoria = null
+           //})
+           //.Context.SaveChangesAsync();
         }
     }
 }

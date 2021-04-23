@@ -12,10 +12,15 @@ namespace Playlist.API.Domain.Services
     public class VideoService : IVideoService<VideoViewModel>
     {
         private readonly IVideoRepository _videoRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
 
-        public VideoService(IVideoRepository videoRepository)
+        public VideoService(
+            IVideoRepository videoRepository,
+            ICategoriaRepository categoriaRepository
+            )
         {
             _videoRepository = videoRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
         public async Task Atualizar(VideoViewModel e)
@@ -24,7 +29,9 @@ namespace Playlist.API.Domain.Services
             else e.DataVisualizacao = default;
 
             _videoRepository.DetachLocal(_ => _.Id == Guid.Parse(e.Id));
-            await _videoRepository.Atualizar(e);
+
+            var video = await AssociarCategoria(e.CategoriaId, (Video)e);
+            await _videoRepository.Atualizar(video);
         }
 
         public async Task<VideoViewModel> BuscarPorId(Guid id)
@@ -69,12 +76,20 @@ namespace Playlist.API.Domain.Services
 
         public async Task Inserir(VideoViewModel e)
         {
-            var video = (Video)e;        
+            var video = await AssociarCategoria(e.CategoriaId, (Video)e);
             await _videoRepository.Inserir(video);
 
             e.Id = video.Id.ToString();
             e.CategoriaId = video.Categoria?.Id.ToString();
             e.NomeCategoria = video.Categoria?.Nome;        
+        }
+
+        private async Task<Video> AssociarCategoria(string categoriaId, Video video)
+        {
+            if (!string.IsNullOrEmpty(categoriaId))
+                video.Categoria = await _categoriaRepository.BuscarPorId(Guid.Parse(categoriaId));
+
+            return video;
         }
     }
 }
