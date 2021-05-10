@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Playlist.API.Domain.Interfaces.Service;
 using Playlist.API.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,21 +26,10 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var response = await _service.BuscarTodos();
-                if (response.Count() is 0) return NoContent();
+            var response = await _service.BuscarTodos();
+            if (response.Count() is 0) return NoContent();
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }
+            return Ok(response);
         }
     }
 }

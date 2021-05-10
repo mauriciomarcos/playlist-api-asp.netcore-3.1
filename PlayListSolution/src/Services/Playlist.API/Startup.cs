@@ -19,6 +19,7 @@ namespace Playlist.API
         public void ConfigureServices(IServiceCollection services)
         {          
             services.AddControllers();
+            services.AdicionarConfiguracaoDefaultExceptions();
             services.AdicionarConfiguracaoCORS();
             services.AdicionarConfiguracaoDoEntityFramework(Configuration);
             services.AdicionarConfiguracaoDoSwagger();

@@ -3,6 +3,7 @@ using Playlist.API.Data.Repository;
 using Playlist.API.Domain.Interfaces.Repository;
 using Playlist.API.Domain.Interfaces.Service;
 using Playlist.API.Domain.Services;
+using Playlist.API.Filters.Exceptions;
 using Playlist.API.ViewModels;
 
 namespace Playlist.API.Configurations
@@ -29,6 +30,16 @@ namespace Playlist.API.Configurations
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             }));
+
+            return services;
+        }
+
+        public static IServiceCollection AdicionarConfiguracaoDefaultExceptions(this IServiceCollection services)
+        {
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilter));
+            });
 
             return services;
         }

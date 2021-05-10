@@ -27,22 +27,10 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var response = await _service.BuscarTodos();
-                if (response.Count() is 0) return NoContent();
+            var response = await _service.BuscarTodos();
+            if (response.Count() is 0) return NoContent();
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }
-            
+            return Ok(response);
         }
 
         [HttpGet]
@@ -52,21 +40,10 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            try
-            {
-                var response = await _service.BuscarPorId(id);
-                if (response is null) return NoContent();
+            var response = await _service.BuscarPorId(id);
+            if (response is null) return NoContent();
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }
+            return Ok(response);
         }
 
         [HttpGet]
@@ -76,27 +53,15 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginacaoViewModel<VideoViewModel>>> GetPaginated(int? pageNumber, int? pageSize, [FromQuery] bool visualizado = false)
         {
-            try
-            {
-                pageNumber ??= 1;
-                pageSize ??= 9;
+            pageNumber ??= 1;
+            pageSize ??= 9;
 
-                if (pageNumber < 0) pageNumber = 1;        
+            if (pageNumber < 0) pageNumber = 1;
 
-                var videosComDadosDaPaginacao = (await _service.BuscarTodosPaginado<VideoViewModel>(pageNumber, pageSize, visualizado));
-         
-                if (videosComDadosDaPaginacao.Items.Count() == 0) return NoContent();
+            var videosComDadosDaPaginacao = (await _service.BuscarTodosPaginado<VideoViewModel>(pageNumber, pageSize, visualizado));
+            if (videosComDadosDaPaginacao.Items.Count() == 0) return NoContent();
 
-                return Ok(videosComDadosDaPaginacao);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }
+            return Ok(videosComDadosDaPaginacao);
         }
 
         [HttpPost("criar")]
@@ -105,21 +70,10 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] VideoViewModel video)
         {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
+            await _service.Inserir(video);
 
-                await _service.Inserir(video);
-
-                return Created(new Uri($"{Request.Path}/{video.Id}", UriKind.Relative), video);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { 
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }            
+            return Created(new Uri($"{Request.Path}/{video.Id}", UriKind.Relative), video);
         }
 
         [HttpPut]
@@ -130,28 +84,17 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(Guid id, [FromBody] VideoViewModel video)
         {
-            try
-            {
-                if (id != Guid.Parse(video.Id)) return BadRequest();
+            if (id != Guid.Parse(video.Id)) return BadRequest();
 
-                if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
-                var videoAtualizacao = await _service.BuscarPorId(id);
-                if (videoAtualizacao is null)
-                    return NoContent();
-                else
-                    await _service.Atualizar(video);
+            var videoAtualizacao = await _service.BuscarPorId(id);
+            if (videoAtualizacao is null)
+                return NoContent();
+            else
+                await _service.Atualizar(video);
 
-                return Ok(video);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }           
+            return Ok(video);
         }
 
         [HttpDelete]
@@ -162,24 +105,13 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
-                var videoExclusao = await _service.BuscarPorId(id);
-                if (videoExclusao is null)
-                    return NoContent();
-                else
-                    await _service.Excluir(videoExclusao);
+            var videoExclusao = await _service.BuscarPorId(id);
+            if (videoExclusao is null)
+                return NoContent();
+            else
+                await _service.Excluir(videoExclusao);
 
-                return Ok(videoExclusao);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    MensagemErro = ex.Message,
-                    StakTraceErro = ex.StackTrace
-                });
-            }           
+            return Ok(videoExclusao);
         }
     }
 }

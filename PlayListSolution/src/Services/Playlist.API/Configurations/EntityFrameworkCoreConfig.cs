@@ -15,7 +15,8 @@ namespace Playlist.API.Configurations
             //services.AddDbContext<PlayListDbContext>(options =>
             //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<PlayListDbContext>(options => {
+            services.AddDbContext<PlayListDbContext>(options =>
+            {
                 options
                 .UseLoggerFactory(_logger)
                 .EnableSensitiveDataLogging()
