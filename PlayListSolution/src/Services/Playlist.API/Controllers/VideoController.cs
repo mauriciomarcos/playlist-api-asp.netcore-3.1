@@ -53,7 +53,6 @@ namespace Playlist.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginacaoViewModel<VideoViewModel>>> GetPaginated(int? pageNumber, int? pageSize, [FromQuery] bool visualizado = false)
         {
-            // Adicionado comentário.
             pageNumber ??= 1;
             pageSize ??= 9;
 
